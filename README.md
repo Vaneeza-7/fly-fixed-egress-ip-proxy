@@ -43,10 +43,13 @@ requests and should cost about $5/month for the machines themselves.
 
 ## How do I use it?
 
-`fly app create your-proxy-name -o your-organization`
-`fly deploy --no-public-ips -a your-proxy-name`
-`fly ips allocate-v6 --private -a your-proxy-name`
-`for m in $(fly machines list -a your-proxy-name --json  | jq -r '.[] | .id'); do fly machine egress-ip allocate -a your-proxy-name --yes $m; done`
+```bash
+export PROXY_NAME=your-proxy-name
+fly app create $PROXY_NAME -o your-organization
+fly deploy --no-public-ips -a $PROXY_NAME
+fly ips allocate-v6 --private -a $PROXY_NAME
+for m in $(fly machines list -a $PROXY_NAME --json  | jq -r '.[] | .id'); do fly machine egress-ip allocate -a $PROXY_NAME --yes $m; done
+```
 
 Lastly, point your apps to the proxy for outbound http/https requests. In your
 other apps do something like setting the http_proxy and https_proxy environment
@@ -62,7 +65,7 @@ You're creating a Fly app with two machines. Requests should be distributed
 somewhat evenly among the two machines. You're setting up the app to _not_ be
 exposed to the Internet (it'd be an open proxy!). You're giving the app a
 _private_ IP address so it's usable by any other apps within your organization
-at the `your-proxy-name.flycast` hostname. Then you're assigning a static
+at the `$PROXY_NAME.flycast` hostname. Then you're assigning a static
 egress IP to both machines in this app.
 
 Those are the egress IPs you need to share with anyone needing to allowlist
