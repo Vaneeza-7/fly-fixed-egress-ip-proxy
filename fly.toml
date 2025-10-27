@@ -1,21 +1,21 @@
-primary_region = "iad"
-kill_signal= "SIGQUIT"
+# fly.toml app configuration file generated for fly-fixed-egress-ip-proxy on 2025-10-27T15:32:38Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-[build]
-  image = "vimagick/tinyproxy"
+app = 'fly-fixed-egress-ip-proxy'
+primary_region = 'iad'
 
-[[services]]
-protocol = "tcp"
-internal_port = 8888
-auto_stop_machines = true
-auto_start_machines = true
-min_machines_running = 0
-hard_limit = 600
-soft_limit = 550
-[[services.ports]]
-port = 8888
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
   memory = '256mb'
   cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 256
