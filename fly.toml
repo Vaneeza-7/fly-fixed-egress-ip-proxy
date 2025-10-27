@@ -1,4 +1,4 @@
-primary_region = "atl"
+primary_region = "iad"
 kill_signal= "SIGQUIT"
 
 [build]
